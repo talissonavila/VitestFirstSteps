@@ -8,6 +8,7 @@ describe("Testa o componente de login", () => {
         useNavigate() {
             return navigateMock;
         },
+        Link: vi.fn().mockImplementation((props) => props.children),
     }));
 
     test("deve haver um título escrito 'Sign In'", async () => {
@@ -59,5 +60,15 @@ describe("Testa o componente de login", () => {
         fireEvent.click(button);
 
         expect(navigateMock).toHaveBeenCalledOnce();
-    })
+    });
+
+    test("deve haver um link que redireciona para a tela de sign up", async () => {
+        render(<Login/>);
+
+        const link = await screen.findByText("Não possui cadastro? Clique aqui!")
+
+        expect(link).toBeInTheDocument();
+    });
+
+
 });

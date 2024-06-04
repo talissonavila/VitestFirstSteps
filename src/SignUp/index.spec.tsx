@@ -8,6 +8,7 @@ describe("testa o component SignUp", () => {
         useNavigate() {
             return nagivateMock;
         },
+        Link: vi.fn().mockImplementation((props) => props.children),
     }));
 
     test("devem haver 3 inputs na minha tela", async () => {
@@ -50,5 +51,12 @@ describe("testa o component SignUp", () => {
         fireEvent.click(button);
 
         expect(nagivateMock).toHaveBeenCalledOnce();
+    });
+
+    test("deve haver um link para ir até a página de login", () => {
+        render(<SignUp/>);
+
+        const link = screen.getByText("Já possui cadastro? Clique aqui.");
+        expect(link).toBeInTheDocument();
     });
 });
