@@ -1,6 +1,6 @@
-import { render, screen } from "@testing-library/react"
+import { fireEvent, render, screen } from "@testing-library/react"
 import Dashboard from "."
-import { fetchPokemonList } from "../services/PokemonService";
+import { fetchPokemonList } from "../../services/PokemonService";
 import { faker } from "@faker-js/faker";
 
 const mockFetchListPokemonFn = vi.fn(fetchPokemonList).mockImplementation(async () => {
@@ -20,7 +20,17 @@ const mockFetchListPokemonFn = vi.fn(fetchPokemonList).mockImplementation(async 
     ];
 });
 
+const navigateMock = vi.fn();
+
 describe("testa o component página", () => {
+    vi.mock("react-router-dom", () => {
+        return {
+            useNavigate() {
+                return navigateMock;
+            }
+        }
+    })
+
     test("deve haver um titulo na pagina", async () => {
         render(<Dashboard fetchPokemonList={mockFetchListPokemonFn} />);
         const title = await screen.findByRole("heading");
@@ -36,7 +46,16 @@ describe("testa o component página", () => {
 
     test("deve haver um 'Pikachu' na lista de pokemons",  async () => {
         render(<Dashboard fetchPokemonList={mockFetchListPokemonFn}/>)
+       
         const pikachu = await screen.findByText("Pikachu");
         expect(pikachu).toBeInTheDocument();
     });
+
+    test("Deve ser possível clicar no 'li' para abrir a páginas de detalhes do pokemon", async () => {
+        render(<Dashboard fetchPokemonList={mockFetchListPokemonFn}/>);
+        
+        const link = await screen.findByText("Pikachu");
+        fireEvent.click(link);
+        expect(navigateMock).toHaveBeenCalledOnce();
+    })
 });
