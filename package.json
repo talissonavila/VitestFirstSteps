@@ -13,6 +13,7 @@
     "cypress:open": "cypress open"
   },
   "dependencies": {
+    "projeto01": "file:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -36,9 +37,10 @@
     "jsdom": "^24.1.0",
     "path": "^0.12.7",
     "react-router-dom": "^6.23.1",
+    "rollup": ">=4.22.4",
     "sass": "^1.77.4",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0",
+    "vite": ">=5.2.14",
     "vitest": "^1.6.0"
   }
 }
